@@ -19,12 +19,14 @@
   justify-content: space-between;
 }
 
+.btn,
 .header__btn {
   padding: 10px 20px;
   background-color: white;
   border-radius: 20px;
 }
 
+.btn:hover,
 .header__btn:hover {
   cursor: pointer;
 }
@@ -90,4 +92,68 @@
 .card__image {
   width: 64px;
   height: 64px;
+}
+
+.modal {
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+}
+
+.modal.active {
+  visibility: visible;
+}
+
+.modal__container {
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.modal__title {
+  color: green;
+  font-size: 30px;
+  font-weight: 900;
+  font-variant: small-caps;
+}
+
+.modal__content {
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  font-variant: small-caps;
+}
+
+.modal__btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  text-align: center;
 }

@@ -11,8 +11,16 @@ import {
   gameInfoElement,
   scoreElement,
   movesElement,
+  modalContainer,
+  modalElement,
+  modalTitle,
+  modalContent,
+  modalBtnContainer,
+  modalCloseBtn,
+  modalStartGameBtn,
 } from "./consts.js";
 import "./stylesManager.js";
+import { addTopResult, topResults } from "./topResults.js";
 import deckOfCards, { cardPaths, formNewDeckOfCards } from "./deckOfCards.js";
 
 let score = 0;
@@ -20,9 +28,15 @@ let moves = 0;
 
 const currentActiveCards = [];
 
-startGameBtn.textContent = "NEW";
-startGameBtn.addEventListener("click", () => startNewGame());
-topTableBtn.textContent = "TOP";
+const startGameText = "New";
+
+startGameBtn.textContent = startGameText;
+startGameBtn.addEventListener("click", handleStartGameBtnBlick);
+topTableBtn.textContent = "Top";
+topTableBtn.addEventListener("click", () => {
+  openModal("top");
+  modalElement.classList.add("active");
+});
 
 headerElement.appendChild(startGameBtn);
 headerElement.appendChild(topTableBtn);
@@ -67,6 +81,8 @@ function startNewGame() {
   mainElement.appendChild(cardsListElement);
 }
 
+let modalWinText = `Your game moves: x`;
+
 function handleCardClick(e) {
   const currentCardElement = e.target.closest(".card");
 
@@ -91,6 +107,11 @@ function handleCardClick(e) {
           cardElement.classList.add("completed");
           cardElement.removeEventListener("click", handleCardClick);
         });
+        if (score === cardPaths.length) {
+          addTopResult(moves, Date.now());
+          openModal("win");
+          modalElement.classList.add("active");
+        }
         currentActiveCards.length = 0;
       } else {
         const allCardElements = document.querySelectorAll(".card:not(.completed)");
@@ -118,4 +139,77 @@ function toggleCardFromActive(currentCardElement) {
   currentActiveCards.splice(index, 1);
   currentCardElement.classList.remove("active");
   currentCardElement.addEventListener("click", handleCardClick);
+}
+
+modalCloseBtn.textContent = "Close";
+
+modalCloseBtn.addEventListener("click", closeModal);
+
+function closeModal() {
+  modalContainer.replaceChildren();
+  modalContent.replaceChildren();
+  modalElement.classList.remove("active");
+}
+
+function handleStartGameBtnBlick() {
+  startNewGame();
+}
+
+modalStartGameBtn.addEventListener("click", () => {
+  closeModal();
+  handleStartGameBtnBlick();
+});
+
+modalStartGameBtn.textContent = startGameText;
+
+function openModal(type) {
+  switch (type) {
+    case "win":
+      modalTitle.textContent = "You won!";
+      modalWinText = `Your game moves: ${moves}`;
+      modalContent.textContent = modalWinText;
+      modalBtnContainer.appendChild(modalStartGameBtn);
+      break;
+    case "top":
+      {
+        if (topResults.length === 0) {
+          modalTitle.textContent = "No results yet";
+        } else {
+          modalTitle.textContent = "Top results";
+          const topTable = document.createElement("table");
+          const tableHeadRow = document.createElement("tr");
+          const tableNumberHead = document.createElement("th");
+          tableNumberHead.textContent = "№";
+          const tableMovesHead = document.createElement("th");
+          tableMovesHead.textContent = "Moves";
+          const tableDateHead = document.createElement("th");
+          tableDateHead.textContent = "Date";
+          tableHeadRow.appendChild(tableNumberHead);
+          tableHeadRow.appendChild(tableMovesHead);
+          tableHeadRow.appendChild(tableDateHead);
+          topTable.appendChild(tableHeadRow);
+          topResults.forEach((result, i) => {
+            const tableResultRow = document.createElement("tr");
+            const tableResultNumber = document.createElement("td");
+            tableResultNumber.textContent = i + 1;
+            const tableResultMoves = document.createElement("td");
+            tableResultMoves.textContent = result.moves;
+            const tableResultDate = document.createElement("td");
+            tableResultDate.textContent = result.date;
+            tableResultRow.appendChild(tableResultNumber);
+            tableResultRow.appendChild(tableResultMoves);
+            tableResultRow.appendChild(tableResultDate);
+            topTable.appendChild(tableResultRow);
+          });
+          modalContent.appendChild(topTable);
+        }
+      }
+      break;
+  }
+  modalBtnContainer.appendChild(modalCloseBtn);
+  modalContainer.appendChild(modalTitle);
+  modalContainer.appendChild(modalContent);
+  modalContainer.appendChild(modalBtnContainer);
+  modalElement.appendChild(modalContainer);
+  bodyElement.appendChild(modalElement);
 }
