@@ -1,89 +1,93 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .container {
-    margin: 0 auto;
-    padding: 0 30px;
-    max-width: 1440px;
-    width: 100%;
-    background-color: lightblue;
-    min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0 30px;
+  max-width: 1440px;
+  width: 100%;
+  background-color: lightblue;
+  min-height: 100dvh;
 }
 
 .header {
-    padding: 20px 0;
-    display: flex;
-    justify-content: space-between;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
 }
 
 .header__btn {
-    padding: 10px 20px;
-    background-color: white;
-    border-radius: 20px;
+  padding: 10px 20px;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .header__btn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .main {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .main__game-info {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    gap: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  gap: 50px;
 }
 
 .card__list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .card {
-    max-width: 150px;
-    width: 100%;
-    min-width: 80px;
-    height: 100%;
-    min-height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
-    border: 1px solid lightcyan;
-    border-radius: 20px;
+  max-width: 150px;
+  width: 100%;
+  min-width: 80px;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  border: 1px solid lightcyan;
+  border-radius: 20px;
 }
 
 .card:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .card.active {
-    background-color: white;
+  background-color: white;
+}
+
+.card.completed {
+  border: 1px solid green;
 }
 
 .card .card__image {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .card.active .card__image {
-    visibility: visible;
+  visibility: visible;
 }
 
 .card__image {
-    width: 64px;
-    height: 64px;
+  width: 64px;
+  height: 64px;
 }

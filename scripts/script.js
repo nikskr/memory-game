@@ -1,16 +1,16 @@
 import "./consts.js";
 import "./deckOfCards.js";
 import {
-    bodyElement,
-    containerElement,
-    headerElement,
-    mainElement,
-    cardsListElement,
-    topTableBtn,
-    startGameBtn,
-    gameInfoElement,
-    scoreElement,
-    movesElement,
+  bodyElement,
+  containerElement,
+  headerElement,
+  mainElement,
+  cardsListElement,
+  topTableBtn,
+  startGameBtn,
+  gameInfoElement,
+  scoreElement,
+  movesElement,
 } from "./consts.js";
 import "./stylesManager.js";
 import deckOfCards, { cardPaths, formNewDeckOfCards } from "./deckOfCards.js";
@@ -44,83 +44,78 @@ containerElement.appendChild(mainElement);
 bodyElement.appendChild(containerElement);
 
 function startNewGame() {
-    cardsListElement.replaceChildren();
-    formNewDeckOfCards();
-    deckOfCards.forEach((card) => {
-        const cardElement = document.createElement("div");
-        cardElement.classList.add("card");
-        cardElement.id = card.id;
+  moves = 0;
+  movesElement.textContent = `Moves: ${moves}`;
+  score = 0;
+  scoreElement.textContent = `Score: ${score} / ${cardPaths.length}`;
+  cardsListElement.replaceChildren();
+  formNewDeckOfCards();
+  deckOfCards.forEach((card) => {
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("card");
+    cardElement.id = card.id;
 
-        const cardImage = document.createElement("img");
-        cardImage.classList.add("card__image");
-        cardImage.src = card.img;
+    const cardImage = document.createElement("img");
+    cardImage.classList.add("card__image");
+    cardImage.src = card.img;
 
-        cardElement.addEventListener("click", handleCardClick);
-        cardElement.appendChild(cardImage);
-        cardsListElement.appendChild(cardElement);
-    });
+    cardElement.addEventListener("click", handleCardClick);
+    cardElement.appendChild(cardImage);
+    cardsListElement.appendChild(cardElement);
+  });
 
-    mainElement.appendChild(cardsListElement);
+  mainElement.appendChild(cardsListElement);
 }
 
 function handleCardClick(e) {
-    const currentCardElement = e.target.closest(".card");
+  const currentCardElement = e.target.closest(".card");
 
-    currentActiveCards.push(currentCardElement);
+  currentActiveCards.push(currentCardElement);
 
-    if (currentCardElement.classList.contains("active")) {
-        toggleCardFromActive(currentCardElement);
-        return;
-    }
-
-    switch (currentActiveCards.length) {
-        case 0:
-            toggleCardToActive(
-                currentActiveCards[currentActiveCards.length - 1],
-            );
-            break;
-        case 1:
-            toggleCardToActive(
-                currentActiveCards[currentActiveCards.length - 1],
-            );
-            break;
-        case 2:
-            toggleCardToActive(
-                currentActiveCards[currentActiveCards.length - 1],
-            );
-            if (
-                currentActiveCards[0].querySelector(".card__image").src ===
-                currentActiveCards[1].querySelector(".card__image").src
-            ) {
-                score++;
-                scoreElement.textContent = `Score: ${score} / ${cardPaths.length}`;
-                console.log(currentActiveCards);
-                currentActiveCards.forEach((cardElement) => {
-                    cardElement.removeEventListener("click", handleCardClick);
-                });
-                currentActiveCards.length = 0;
-            } else {
-                setTimeout(() => {
-                    currentActiveCards.forEach((cardElement) => {
-                        toggleCardFromActive(cardElement);
-                        currentActiveCards.length = 0;
-                    });
-                }, 1000);
-            }
-            break;
-    }
+  switch (currentActiveCards.length) {
+    case 1:
+      toggleCardToActive(currentCardElement);
+      currentCardElement.removeEventListener("click", handleCardClick);
+      break;
+    case 2:
+      moves++;
+      movesElement.textContent = `Moves: ${moves}`;
+      toggleCardToActive(currentCardElement);
+      if (
+        currentActiveCards[0].querySelector(".card__image").src ===
+        currentActiveCards[1].querySelector(".card__image").src
+      ) {
+        score++;
+        scoreElement.textContent = `Score: ${score} / ${cardPaths.length}`;
+        currentActiveCards.forEach((cardElement) => {
+          cardElement.classList.add("completed");
+          cardElement.removeEventListener("click", handleCardClick);
+        });
+        currentActiveCards.length = 0;
+      } else {
+        const allCardElements = document.querySelectorAll(".card:not(.completed)");
+        allCardElements.forEach((cardElement) => {
+          cardElement.removeEventListener("click", handleCardClick);
+        });
+        setTimeout(() => {
+          toggleCardFromActive(currentActiveCards[1]);
+          toggleCardFromActive(currentActiveCards[0]);
+          allCardElements.forEach((cardElement) => {
+            cardElement.addEventListener("click", handleCardClick);
+          });
+        }, 1000);
+      }
+      break;
+  }
 }
 
 function toggleCardToActive(currentCardElement) {
-    currentCardElement.classList.add("active");
-    moves++;
-    movesElement.textContent = `Moves: ${moves}`;
+  currentCardElement.classList.add("active");
 }
 
 function toggleCardFromActive(currentCardElement) {
-    const index = currentActiveCards.indexOf(currentCardElement);
-    currentActiveCards.splice(index, 1);
-    currentCardElement.classList.remove("active");
-    moves++;
-    movesElement.textContent = `Moves: ${moves}`;
+  const index = currentActiveCards.indexOf(currentCardElement);
+  currentActiveCards.splice(index, 1);
+  currentCardElement.classList.remove("active");
+  currentCardElement.addEventListener("click", handleCardClick);
 }
