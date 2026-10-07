@@ -147,6 +147,24 @@ modalCloseBtn.textContent = "Close";
 
 modalCloseBtn.addEventListener("click", closeModal);
 
+modalElement.addEventListener("click", () => {
+    closeModal();
+});
+
+modalContainer.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+
+document.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case "Escape":
+            closeModal();
+            break;
+        default:
+            break;
+    }
+});
+
 function closeModal() {
     modalContainer.replaceChildren();
     modalContent.replaceChildren();
