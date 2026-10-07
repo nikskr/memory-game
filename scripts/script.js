@@ -29,11 +29,11 @@ let timeoutId;
 
 const currentActiveCards = [];
 
-const startGameText = "New";
+const startGameText = "New Game";
 
 startGameBtn.textContent = startGameText;
 startGameBtn.addEventListener("click", () => startNewGame());
-topTableBtn.textContent = "Top";
+topTableBtn.textContent = "Leaderboard";
 topTableBtn.addEventListener("click", () => {
   openModal("top");
   modalElement.classList.add("active");
@@ -61,6 +61,7 @@ bodyElement.appendChild(containerElement);
 function startNewGame() {
   if (timeoutId) {
     clearTimeout(timeoutId);
+    timeoutId = null;
   }
   currentActiveCards.length = 0;
   moves = 0;
@@ -163,7 +164,9 @@ modalContainer.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "Escape":
-      closeModal();
+      if (modalElement.classList.contains("active")) {
+        closeModal();
+      }
       break;
     default:
       break;
