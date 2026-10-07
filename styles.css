@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 .container {
   margin: 0 auto;
   padding: 0 30px;
@@ -96,7 +100,7 @@
 
 .modal {
   z-index: 1;
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;

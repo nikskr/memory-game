@@ -170,6 +170,7 @@ function closeModal() {
     modalContent.replaceChildren();
     modalBtnContainer.replaceChildren();
     modalElement.classList.remove("active");
+    bodyElement.classList.remove("no-scroll");
 }
 
 modalStartGameBtn.addEventListener("click", () => {
@@ -180,6 +181,7 @@ modalStartGameBtn.addEventListener("click", () => {
 modalStartGameBtn.textContent = startGameText;
 
 function openModal(type) {
+    bodyElement.classList.add("no-scroll");
     switch (type) {
         case "win":
             modalTitle.textContent = "You won!";
