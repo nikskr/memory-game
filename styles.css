@@ -5,7 +5,7 @@
 }
 
 body.no-scroll {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .container {
@@ -75,6 +75,10 @@ body.no-scroll {
 
 .card:hover {
   cursor: pointer;
+}
+
+.card:focus-visible {
+  outline: 3px solid #0076ff;
 }
 
 .card.active {
