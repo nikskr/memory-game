@@ -71,7 +71,7 @@ function startNewGame() {
   cardsListElement.replaceChildren();
   formNewDeckOfCards();
   deckOfCards.forEach((card) => {
-    const cardElement = document.createElement("div");
+    const cardElement = document.createElement("button");
     cardElement.classList.add("card");
     cardElement.id = card.id;
 
