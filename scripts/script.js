@@ -25,6 +25,7 @@ import deckOfCards, { cardPaths, formNewDeckOfCards } from "./deckOfCards.js";
 
 let score = 0;
 let moves = 0;
+let timeoutId;
 
 const currentActiveCards = [];
 
@@ -58,6 +59,10 @@ containerElement.appendChild(mainElement);
 bodyElement.appendChild(containerElement);
 
 function startNewGame() {
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+    }
+    currentActiveCards.length = 0;
     moves = 0;
     movesElement.textContent = `Moves: ${moves}`;
     score = 0;
@@ -120,7 +125,7 @@ function handleCardClick(e) {
                 allCardElements.forEach((cardElement) => {
                     cardElement.removeEventListener("click", handleCardClick);
                 });
-                setTimeout(() => {
+                timeoutId = setTimeout(() => {
                     toggleCardFromActive(currentActiveCards[1]);
                     toggleCardFromActive(currentActiveCards[0]);
                     allCardElements.forEach((cardElement) => {
